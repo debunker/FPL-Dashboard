@@ -9,6 +9,11 @@
     <directory>/</directory>
     <parameters>
       <parameter>
+        <name>get_gw_last_updated</name>
+        <default_value>1</default_value>
+        <description/>
+      </parameter>
+      <parameter>
         <name>gw_stamp</name>
         <default_value>-1</default_value>
         <description/>
@@ -439,7 +444,7 @@
     <created_user>admin</created_user>
     <created_date>2015/09/29 11:36:53.000</created_date>
     <modified_user>jarnopons</modified_user>
-    <modified_date>2019/08/12 10:07:21.154</modified_date>
+    <modified_date>2019/08/12 15:27:02.636</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -507,23 +512,33 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Data grid</from>
+      <from>Select values</from>
+      <to>Table output</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filter rows</from>
       <to>Get Player Data</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Player Data</from>
+      <from>Data grid</from>
       <to>Set field value to a constant</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Set field value to a constant</from>
+      <to>Filter rows</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Player Data</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>Table output</to>
+      <from>Filter rows</from>
+      <to>Dummy (do nothing)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -561,9 +576,21 @@
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
       </field>
+      <field>
+        <name>get_gw_last_updated</name>
+        <type/>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
     </fields>
     <data>
       <line>
+        <item/>
         <item/>
         <item/>
       </line>
@@ -577,7 +604,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
+      <xloc>96</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -586,7 +613,7 @@
     <name>Get Player Data</name>
     <type>Rest</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -629,7 +656,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
+      <xloc>544</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1076,7 +1103,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>576</xloc>
+      <xloc>672</xloc>
       <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
@@ -1095,111 +1122,84 @@
     <fields>
       <field>
         <name>gw_stamp</name>
-        <rename/>
       </field>
       <field>
         <name>today</name>
-        <rename/>
       </field>
       <field>
         <name>code</name>
-        <rename/>
       </field>
       <field>
         <name>element_type</name>
-        <rename/>
       </field>
       <field>
         <name>event_points</name>
-        <rename/>
       </field>
       <field>
         <name>first_name</name>
-        <rename/>
       </field>
       <field>
         <name>form</name>
-        <rename/>
       </field>
       <field>
         <name>id</name>
-        <rename/>
       </field>
       <field>
         <name>now_cost</name>
-        <rename/>
       </field>
       <field>
         <name>points_per_game</name>
-        <rename/>
       </field>
       <field>
         <name>second_name</name>
-        <rename/>
       </field>
       <field>
         <name>selected_by_percent</name>
-        <rename/>
       </field>
       <field>
         <name>status</name>
-        <rename/>
       </field>
       <field>
         <name>team</name>
-        <rename/>
       </field>
       <field>
         <name>team_code</name>
-        <rename/>
       </field>
       <field>
         <name>total_points</name>
-        <rename/>
       </field>
       <field>
         <name>value_form</name>
-        <rename/>
       </field>
       <field>
         <name>value_season</name>
-        <rename/>
       </field>
       <field>
         <name>web_name</name>
-        <rename/>
       </field>
       <field>
         <name>minutes</name>
-        <rename/>
       </field>
       <field>
         <name>goals_scored</name>
-        <rename/>
       </field>
       <field>
         <name>assists</name>
-        <rename/>
       </field>
       <field>
         <name>clean_sheets</name>
-        <rename/>
       </field>
       <field>
         <name>goals_conceded</name>
-        <rename/>
       </field>
       <field>
         <name>bonus</name>
-        <rename/>
       </field>
       <field>
         <name>bps</name>
-        <rename/>
       </field>
       <field>
         <name>ict_index</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
@@ -1677,46 +1677,6 @@
     </GUI>
   </step>
   <step>
-    <name>Set field value to a constant</name>
-    <type>SetValueConstant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <usevar>Y</usevar>
-    <fields>
-      <field>
-        <name>gw_stamp</name>
-        <value>${gw_stamp}</value>
-        <mask/>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>today</name>
-        <value>${today}</value>
-        <mask/>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>688</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Table output</name>
     <type>TableOutput</type>
     <description/>
@@ -1865,6 +1825,112 @@
     <GUI>
       <xloc>928</xloc>
       <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Get Player Data</send_true_to>
+    <send_false_to>Dummy (do nothing)</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>get_gw_last_updated</leftvalue>
+        <function>&lt;</function>
+        <rightvalue>gw_stamp</rightvalue>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Set field value to a constant</name>
+    <type>SetValueConstant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <usevar>Y</usevar>
+    <fields>
+      <field>
+        <name>gw_stamp</name>
+        <value>${gw_stamp}</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>today</name>
+        <value>${today}</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>get_gw_last_updated</name>
+        <value>${get_gw_last_updated}</value>
+        <mask/>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>256</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Dummy (do nothing)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
