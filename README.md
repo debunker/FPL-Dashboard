@@ -13,3 +13,5 @@ Steps:
 - Build/ modify the Power BI dashboard 
 - Update Manage Track players/teams
 - WIN
+![Example Dash](https://github.com/debunker/FPL-Dashboard/blob/master/FPL%20DaSHBOARD.png)
+
